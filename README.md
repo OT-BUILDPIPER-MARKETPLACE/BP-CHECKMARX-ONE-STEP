@@ -13,3 +13,6 @@ git clone https://github.com/OT-BUILDPIPER-MARKETPLACE/BP-CHECKMARX-ONE-STEP.git
 git submodule init
 git submodule update
 docker build -t ot/bp-checkmarx-one:0.1 .
+
+registry.buildpiper.in/bp-checkmarx-one-exclude:0.2
+

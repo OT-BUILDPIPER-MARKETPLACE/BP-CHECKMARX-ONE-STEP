@@ -11,8 +11,8 @@ RUN chmod +x build.sh
 ENV SERVER_URL ""
 ENV API_KEY ""
 ENV SCAN_TYPE "sast,iac-security,sca,api-security"
+ENV FILE_FILTER "!vendor"
 ENV SLEEP_DURATION 0s
 ENV VALIDATION_FAILURE_ACTION WARNING
 ENV ACTIVITY_SUB_TASK_CODE BP-CheckMarx-One-TASK
 ENTRYPOINT [ "./build.sh" ]
-
