@@ -18,7 +18,8 @@ logInfoMessage "I'll scan $code for severities and publish report on CheckMarx D
 sleep $SLEEP_DURATION
 
 if [ -d $code ];then
-  ./cx scan create --project-name "$CODEBASE_DIR" --file-source "$code" --scan-types "$SCAN_TYPE" --apikey "$API_KEY" --base-uri "$SERVER_URL" --branch "$BUILD_GIT_BRANCH_NAME"
+  ./cx scan create --project-name "$CODEBASE_DIR" --file-source "$code" --scan-types "$SCAN_TYPE" --apikey "$API_KEY" --base-uri "$SERVER_URL" --branch "$BUILD_GIT_BRANCH_NAME" --file-filter "$FILE_FILTER" --sast-incremental   --debug
+
   logInfoMessage "Congratulations checkmarx scan succeeded!!!"
   generateOutput $ACTIVITY_SUB_TASK_CODE true "Congratulations checkmarx scan succeeded!!!"
 else
