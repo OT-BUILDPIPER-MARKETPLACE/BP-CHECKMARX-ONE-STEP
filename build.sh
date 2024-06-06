@@ -7,6 +7,12 @@ source aws-functions.sh
 
 code="$WORKSPACE/$CODEBASE_DIR" 
 
+if [ -d "$code/reports" ]; then
+    true
+else
+    mkdir "$code/reports"
+fi
+
 BUILD_GIT_BRANCH_NAME=`getGitBranch`
 
 logInfoMessage "I'll do the scanning for $code"
@@ -18,7 +24,7 @@ logInfoMessage "I'll scan $code for severities and publish report on CheckMarx D
 sleep $SLEEP_DURATION
 
 if [ -d $code ];then
-  ./cx scan create --project-name "$CODEBASE_DIR" --file-source "$code" --scan-types "$SCAN_TYPE" --apikey "$API_KEY" --base-uri "$SERVER_URL" --branch "$BUILD_GIT_BRANCH_NAME" --file-filter "$FILE_FILTER" --sast-incremental   --debug
+  ./cx scan create --project-name "$CODEBASE_DIR" --file-source "$code" --scan-types "$SCAN_TYPE" --apikey "$API_KEY" --base-uri "$SERVER_URL" --branch "$BUILD_GIT_BRANCH_NAME" --file-filter "$FILE_FILTER" --sast-incremental  --output-name checkmarx-one-scan-result.json --output-path "$code/reports" --report-format json --debug
 
   logInfoMessage "Congratulations checkmarx scan succeeded!!!"
   generateOutput $ACTIVITY_SUB_TASK_CODE true "Congratulations checkmarx scan succeeded!!!"
