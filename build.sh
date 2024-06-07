@@ -29,8 +29,8 @@ if [ -d $code ];then
   ./cx scan create --project-name "$CODEBASE_DIR" --file-source "$code" --scan-types "$SCAN_TYPE" --apikey "$API_KEY" --base-uri "$SERVER_URL" --branch "$BUILD_GIT_BRANCH_NAME" --file-filter "$FILE_FILTER" --sast-incremental  --output-name checkmarx-one-scan-result --output-path "$code/reports" --report-format json --debug
 
   jq -r '.results[] | .severity' "$code/reports/checkmarx-one-scan-result.json" | sort | uniq -c | awk '{print $2 "," $1}' > "$code/reports/severity_counts_temp.csv"
-  echo "severity,count" > "$code/reports/severity_counts.csv"
-  cat "$code/reports/severity_counts_temp.csv" >> "$code/reports/severity_counts.csv"
+  echo "HIGH,LOW,MEDIUM" > "$code/reports/severity_counts.csv"
+  cat "$code/reports/severity_counts_temp.csv" | awk -F ',' '{print $2}' | paste -sd, >> "$code/reports/severity_counts.csv"
   rm "$code/reports/severity_counts_temp.csv"
 
   export base64EncodedResponse=$(encodeFileContent "$code/reports/severity_counts.csv")
