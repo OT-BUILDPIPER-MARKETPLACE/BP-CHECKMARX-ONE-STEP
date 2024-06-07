@@ -41,21 +41,21 @@ if [ -d $code ];then
   export source_key=$SOURCE_KEY
   export report_file_path=$REPORT_FILE_PATH
 
-  generateMIDataJson /opt/buildpiper/data/mi.template gitleaks.mi
-  cat gitleaks.mi
-  sendMIData gitleaks.mi ${MI_SERVER_ADDRESS}
-
+  generateMIDataJson data/mi.template checkmarx.mi
+  cat checkmarx.mi
+  sendMIData checkmarx.mi ${MI_SERVER_ADDRESS}
 
   logInfoMessage "Congratulations checkmarx scan succeeded!!!"
   generateOutput $ACTIVITY_SUB_TASK_CODE true "Congratulations checkmarx scan succeeded!!!"
 else
-if [ "$VALIDATION_FAILURE_ACTION" == "FAILURE" ]; then
-  logErrorMessage "$code: No such directory exist"
-  logErrorMessage "Please check checkmarx scan failed!!!"
-  generateOutput $ACTIVITY_SUB_TASK_CODE false "Please check checkmarx scan failed!!!"
-  exit 1
-else
-  logErrorMessage "$code: No such directory exist"
-  logWarningMessage "Please check checkmarx scan failed!!!"
-  generateOutput $ACTIVITY_SUB_TASK_CODE true "Please check checkmarx scan failed!!!"
+  if [ "$VALIDATION_FAILURE_ACTION" == "FAILURE" ]; then
+    logErrorMessage "$code: No such directory exist"
+    logErrorMessage "Please check checkmarx scan failed!!!"
+    generateOutput $ACTIVITY_SUB_TASK_CODE false "Please check checkmarx scan failed!!!"
+    exit 1
+  else
+    logErrorMessage "$code: No such directory exist"
+    logWarningMessage "Please check checkmarx scan failed!!!"
+    generateOutput $ACTIVITY_SUB_TASK_CODE true "Please check checkmarx scan failed!!!"
+  fi
 fi
