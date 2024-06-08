@@ -45,6 +45,8 @@ if [ -d $code ];then
   cat checkmarx.mi
   sendMIData checkmarx.mi ${MI_SERVER_ADDRESS}
 
+  echo "Maturity Insights Address: $MI_SERVER_ADDRESS"
+  
   logInfoMessage "Congratulations checkmarx scan succeeded!!!"
   generateOutput $ACTIVITY_SUB_TASK_CODE true "Congratulations checkmarx scan succeeded!!!"
 else
